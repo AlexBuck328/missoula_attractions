@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<!-- Use the HTML and CSS you developed in module 01 to fill out this template.-->
+
+<head>
+  <meta charset=utf-8 />
+  <title>Missoula Travel Destinations</title>
+
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link rel='icon' href='https://newmapsplus.github.io/favicon.ico' type='image/x-icon' />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css" />
+
+
+  <!-- Add links to external css stylesheets. -->
+  <link href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Cinzel:700|Fauna+One" rel="stylesheet">
+
+  <style>
+    /* The map element */
+    #map {
+      width: 100%;
+      height: 750px;
+    }
+
+    /* Add HTML element styles */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
+      font-family: 'Fauna', serif;
+      font-weight: 300;
+      color: #3d3d3d;
+      font-size: 100%;
+    }
+
+    header,
+    section,
+    footer {
+      width: 80%;
+      margin: 10px auto;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 900;
+      letter-spacing: .04em;
+      font-family: 'Cinzel', Cursive;
+    }
+
+    h2 {
+      font-size: 2em;
+      font-weight: 300;
+      letter-spacing: .04em;
+      font-family: 'Cinzel', Cursive;
+    }
+
+    h3 {
+      font-size: 1.15em;
+      font-weight: 100;
+      letter-spacing: .04em;
+      font-family: 'Cinzel', Cursive;
+    }
+
+    p {
+      font-size: 1.1em;
+      line-height: 1.5em;
+      font-family: 'Fauna One', Serif;
+
+    }
+
+    a {
+      color: #4d9494;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    a:hover {
+      /* background-color: #7fb2ec; */
+      color: #6ec0c0;
+      text-decoration: underline;
+    }
+
+    ul {
+      padding-left: 20px;
+      font-family: 'Fauna One', serif;
+    }
+
+    li {
+      margin: 10px 0;
+    }
+
+    hr {
+      margin: 20px 0;
+      border: 0;
+      height: 1px;
+      background: #d3d3d3;
+    }
+
+    .caption {
+      margin: 0 0 20px 0;
+      display: block;
+      font-family: 'Fauna One', serif;
+    }
+
+    #map {
+      width: 100%;
+      height: 720px;
+      margin: 5px auto;
+      border: 2px solid #d3d3d3;
+    }
+
+    .img-fill {
+      width: 100%;
+      height: auto;
+      margin: 10px 0;
+    }
+
+    .photo {
+      width: 100%;
+      height: auto;
+      margin: 10px 0;
+    }
+
+    .first-column {
+      float: left;
+      width: 49%;
+      padding-right: 2%;
+    }
+
+    .second-column {
+      float: left;
+      width: 49%;
+    }
+
+    /* Clear floats after columns */
+    .row::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+    @media screen and (max-width: 900px) {
+
+      .first-column,
+      .second-column {
+        width: 100%;
+      }
+    }
+
+    /* Change opacity on hover over the icon class */
+
+    .icon:hover {
+      opacity: .8;
+    }
+
+    /* Modify Leaflet's default popup style */
+
+    .leaflet-popup-content h3 {
+      font-family: "Fauna", serif;
+      font-size: 1.3em;
+      margin-bottom: 6px;
+    }
+
+    .leaflet-popup-content p {
+      margin: 3px 0 6px;
+      font-size: 1.1em;
+    }
+
+    .leaflet-popup-content a {
+      font-weight: normal;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Missoula's Attractions</h1>
+  </header>
+
+  <section>
+    <div id='map'></div>
+  </section>
+
+  <section>
+    <!-- Start row -->
+    <div class="row">
+
+      <!-- Start left column -->
+      <div class="first-column">
+
+        <h2>A River (Is Not All That) Runs Through It</h2>
+        <p>Nicknamed The Garden City, Missoula, Montana is located in the western part of the state in the valley of
+          five converging mountain ranges. Three rivers run through Missoula, the Clark Fork, the Blackfoot and the
+          Bitterroot, making it a mecca for fly-fisherman. The city is home to the University of Montana and author
+          Norman Maclean. In his book A River Runs Through It (which chronicles life in Missoula in the early 20th
+          century), Maclean famously wrote "The world is full of bastards, the number increasing rapidly the further one
+          gets from Missoula, Montana."</p>
+
+        <p>The attractions on this map are just a few of my favorite places in Missoula, starting off with the
+          university. If it weren't for UMT I would never have fallen in love with Missoula. Downtown Missoula bustles
+          with many unique and fine dining establishments. The Missoula Club (a.k.a The Mo Club) is not one of those
+          places. Famous for their Mo Club burgers, which are a greasy, heaping, deliciously mouth-watering example of
+          the classic burger. Nothing washes down a Mo Club burger like some ice cold Double Haul IPA from The
+          KettleHouse. After imbibing some bodacious brews, world famous <a
+            href="https://www.bigdippericecream.com/">Big Dipper</a>
+          is a must! In the morning, after a lively evening parading through Missoula's mainstays, Bagels On Browadway
+          will prepare you for your hike up The "M" Trail. That hike doesn't look tough, but man, those switch-backs can
+          get to you!
+          After successfully navigating The "M" Trail, assuage your appetite with a tasty burrito from Taco Del Sol!
+          Make these attractions a part of your next trip to Missoula, and I promise, you will fall in love with the
+          Carden City as I did. Once you log these places in your travel passport, come back and see me for more
+          Missoula attractions that are sure to become your favorites as well!</p>
+
+        <p>Map authored by Alexander Buck, February 2020</p>
+
+        <!-- Contact info-->
+        <h3>Social Links:</h3>
+        <ul>
+          <li>See my projects on GitHub: <a href="https://github.com/AlexBuck328?tab=projects">AlexBuck328</a></li>
+          <li>Check out <a href='https://newmapsplus.as.uky.edu/'>NewMapsPlus</a></li>
+        </ul>
+
+        <!-- End first column -->
+      </div>
+
+      <!-- Start right column -->
+      <div class="second-column">
+
+        <div class='photo'>
+          <img src="photos/griz_august_2019.JPG" alt="The Oval at UMT" class="img-fill">
+          <p class="caption">The Griz Statue in The Oval at The University of Montana welcomes visitors preparing to
+            hike The "M" </p>
+        </div>
+
+        <!-- End right column -->
+      </div>
+
+      <!-- End row column -->
+    </div>
+
+  </section>
+  <footer>
+
+
+    <hr>
+
+    <a href="https://newmapsplus.github.io">
+      <img src="https://newmapsplus.github.io/assets/graphics/logo-2018-nmp-75px-h-gray.png"
+        alt="University of Kentucky Geography">
+    </a>
+
+    <a href="https://uky-gis.github.io">
+      <img src="https://newmapsplus.github.io/assets/graphics/logo-2018-geography-75px-h.png"
+        alt="University of Kentucky Geography">
+    </a>
+  </footer>
+  <!-- Check if this is latest version of Leaflet JS. -->
+  <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+
+  <script>
+    var map = L.map('map', {
+      center: [46.8663, -113.9921],
+      zoom: 15
+    });
+
+    // Get basemap URL from Leaflet Providers
+    var basemap_url = 'https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}'
+    // 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' 
+    // 'http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png'
+
+    // Get basemap attributes from Leaflet Providers
+    var basemap_attributes = {
+      maxZoom: 18,
+      attribution: '&copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC'
+      // '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>contributors'  
+      // '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    };
+    // requests some map tiles
+    var tiles = L.tileLayer(basemap_url, basemap_attributes);
+
+    map.addLayer(tiles);
+
+    // Begin writing/modifying code for Lab 05 here
+
+    var hotspots = [{
+      name: "The University of Montana",
+      properties: {
+        description: "School Motto: Lux Et Veritas",
+        coordinates: [46.8606, -113.9852],
+        url: 'https://www.umt.edu/',
+        phone: '(406) 243-0211',
+        icon: 'svgs/school-15.svg',
+      }
+    }, {
+      "name": "Big Dipper Ice Cream",
+      "properties": {
+        "description": "Serving up handcrafted ice cream since 1995.",
+        "coordinates": [46.8651, -113.9979],
+        "url": 'https://www.bigdippericecream.com/',
+        "phone": '(406) 543-5722',
+        "icon": 'svgs/ice-cream-15.svg',
+      }
+    }, {
+      "name": "Missoula Club",
+      "properties": {
+        "description": "Warm beer, cold burgers. Bar food the way it was meant to be ",
+        "coordinates": [46.8713, -113.9957],
+        "url": 'https://themissoulaclubmt.com/',
+        "phone": '(406) 728-3740',
+        "icon": 'svgs/beer-15.svg',
+      }
+    }, {
+      "name": "Taco Del Sol",
+      "properties": {
+        "description": "Started in Montana, Taco del Sol offers burritos and tacos influenced by the flavors from the iconic burrito shops in the San Francisco Mission District.",
+        "coordinates": [46.8735, -113.9929],
+        "url": 'http://www.tacodelsol.com/',
+        "phone": '(406) 327-8929',
+        "icon": 'svgs/restaurant-15.svg',
+      }
+    }, {
+      "name": "Bagels On Broadway",
+      "properties": {
+        "description": "The very best bagel shop west of Manhattan (New York, not <a href='https://en.wikipedia.org/wiki/Manhattan,_Montana'> Montana</a>).",
+        "coordinates": [46.8726, -113.9965],
+        "url": 'https://www.bagelsonbroadway.com/',
+        "phone": '(406) 728-8900',
+        "icon": 'svgs/restaurant-15.svg',
+      }
+    }, {
+      "name": "KettleHouse Brewery",
+      "properties": {
+        "description": "Our mission is to match the quality of our beers to the quality of the Montana outdoor experience.",
+        "coordinates": [46.8655, -113.9987],
+        "url": 'https://classic.kettlehouse.com/southside-brewery/',
+        "phone": '(406) 728-1660',
+        "icon": 'svgs/beer-15.svg',
+      }
+    }];
+    console.log(hotspots[0]);
+    console.log(hotspots[0].name);
+    console.log(hotspots[0].properties);
+    console.log(hotspots[0].properties.description);
+    console.log(hotspots[0].properties.url);
+    console.log(hotspots[0].properties.icon);
+
+    console.log(Object.keys(hotspots));
+    console.log(Object.values(hotspots));
+
+    // variable to reference the 0 index
+    for (var values in hotspots) {
+      var i = [i];
+      console.log(i)
+    }
+    // assigning properties object as a variable
+    for (var i = 0; i < hotspots.length; i++) {
+      var props = hotspots[i].properties
+      console.log(props);
+      console.log(props.description);
+      console.log(props.url);
+
+      var icon = L.icon({
+        iconUrl: props.icon,
+        iconSize: [40, 40],
+        popupAnchor: [0, -22],
+        className: "icon"
+      });
+
+      // assign a string, wrapping the name of the place within two HTML bold tags
+
+      var popup = `<h3>${hotspots[i].name}</h3>
+                 <p>${props.description}</p>
+                 <p><b>website</b>: <a href='${props.url}'>${props.url}</a></p>
+                 <p><b>phone</b>: ${props.phone}</p>
+                `
+
+      var marker = L.marker(hotspots[i].properties.coordinates, {
+          icon: icon
+        })
+        .addTo(map)
+        .bindPopup(popup);
+
+      marker.on("mouseover", function () {
+        this.openPopup();
+      });
+      marker.on("mouseout", function () {
+      this.closePopup();
+      }); // Makes sure to close popup on mouseout.
+    }
+  </script>
+
+</body>
+
+</html>

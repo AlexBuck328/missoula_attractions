@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Quiz 05</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel='icon' href='https://newmapsplus.github.io/favicon.ico' type='image/x-icon' />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css" />
+
+    <!-- Add links to external css stylesheets. -->
+    <link href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Cinzel:700|Fauna+One" rel="stylesheet">
+
+    <style>
+        #map {
+            width: 80%;
+            height: 60vh;
+            margin: 20px auto;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 100%;
+            font-family: fantasy;
+        }
+
+        #output {
+            width: 80%;
+            margin: 20px auto;
+            text-align: center;
+            font-size: 1.5em;
+            /* Layout properties: center in page with a css hack! */
+            /* position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%); */
+        }
+
+        h1 {
+            background-color: yellow;
+            margin: 0 0 10px 0;
+            padding: 25px 0 0 0;
+            line-height: 0.8em;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Check if this is latest version of Leaflet JS. -->
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+
+
+    <!-- The div that holds the output from hiCraters.byElev() -->
+   <div id="output"></div> 
+    <!-- add map -->
+    <div id='map'></div>
+    <script>
+        var map = L.map('map', {
+            center: [20.6589, -157.3086],
+            zoom: 8
+        });
+
+        // Get basemap URL from Leaflet Providers
+        var basemap_url =
+            'https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}'
+
+
+        var basemap_attributes = {
+            maxZoom: 18,
+            attribution: '&copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC'
+        };
+
+        // requests some map tiles
+        var tiles = L.tileLayer(basemap_url, basemap_attributes);
+
+        map.addLayer(tiles);
+
+        // Which elevation do you want to use? 
+        // Set this variable for minimum elevation.
+        var elevation = 10;
+
+        // The craters variable will hold the HTML content/
+        var craters = "<h1>Hawaii volcanic craters</h1>"
+
+        // Object that holds the properties of Hawaii craters.
+        var hiCraters = {
+            "name": "Craters of Hawaii",
+            "features": [{ // an array of objects
+                    "properties": {
+                        "name": "Alae Crater",
+                        "class": "Crater",
+                        "elevation_ft": 3218
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-155.1927, 19.3657]
+                    }
+                },
+                {
+                    "properties": {
+                        "name": "Aliamanu Crater",
+                        "class": "Crater",
+                        "elevation_ft": 46
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-157.9120, 21.3596]
+                    }
+                },
+                {
+                    "properties": {
+                        "name": "Aloi Crater",
+                        "class": "Crater",
+                        "elevation_ft": 3258
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-155.2083, 19.3648]
+                    }
+                }
+            ],
+
+
+
+            byElev: function (elev) {
+                var myOutput = {}
+                for (var i = 0; i < this.features.length; i++) {
+                    if (this.features[i].properties.elevation_ft > elev) {
+                        // How can we add more properties to this output object?
+                        myOutput[this.features[i].properties.name] = this.features[i].geometry.coordinates
+                    }
+                }
+                return myOutput
+            }
+        } // End of object declaration
+
+        hiCraters.features.push({
+            "properties": {
+                "name": "Chain of Craters",
+                "class": "Crater",
+                "elevation_ft": 3110,
+            },
+            "geometry": {
+                "type": "point",
+                "coordinates": [-155.1853, 19.3709]
+            }
+        });
+
+        // Access Hawaii craters based on elevation
+        if (elevation > 0) {
+            var craterObject = hiCraters.byElev(elevation)
+            craters += `Craters above ${elevation.toLocaleString()}ft above sea level<br>`
+            for (var k in craterObject) { // loop through object properties
+                craters += `${k} @${craterObject[k][1]}&deg;, ${craterObject[k][0]}&deg;<br>`
+                // Flip coordinates in marker build. Some formats store coordinates as x, y or long, lat. Leaflet uses lat, long
+                L.marker([craterObject[k][1], craterObject[k][0]])
+                .addTo(map)
+                .bindPopup(`${k} @${craterObject[k][1]}&deg;, ${craterObject[k][0]}&deg;<br>`);
+            }
+        } else {
+            craters += "No elevation value given"
+        }
+
+        // Display content in output div
+        document.getElementById("output").innerHTML = craters
+
+        // console.log(`The elevation of Aloi Crater is: ${hiCraters.features[2].properties.elevation_ft} feet`);
+        
+        //var craterElev = hiCraters.byElev(3218);
+        //console.log(craterElev);
+
+       
+        
+        // var craterElev = hiCraters.byElev(40);
+        // console.log(craters);
+
+        // console.log(Object.keys(hiCraters));
+        // console.log(Object.values(hiCraters));
+        // console.log(Object.entries(hiCraters));
+        // console.log(hiCraters.features[0].geometry.coordinates,)
+  
+        // // create popup
+        // for (var i = 0; i < hiCraters.features.length; i++) {
+        //     var popup = `<h3>${craterElev[i]}</h3>`
+        
+
+        //     var marker = L.marker(hiCraters.features[i].geometry.coordinates, {
+        //             //icon: icon
+        //         })
+        //         .addTo(map)
+        //         .bindPopup(popup);
+        // } 
+        // console.log(marker)
+    </script>
+
+</body>
